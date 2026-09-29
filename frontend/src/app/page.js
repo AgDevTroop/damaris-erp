@@ -9,6 +9,7 @@ import API from "@/lib/api";
 export default function Dashboard() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     let aktif = true;
@@ -18,7 +19,7 @@ export default function Dashboard() {
         if (aktif) setData(res.data);
       })
       .catch(() => {
-        if (aktif) alert("Gagal mengambil data dashboard");
+        if (aktif) setError(true);
       })
       .finally(() => {
         if (aktif) setLoading(false);
@@ -39,6 +40,15 @@ export default function Dashboard() {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <p className="text-gray-400">Memuat dashboard...</p>
+      </div>
+    );
+
+  if (error || !data)
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+        <p className="text-center text-red-500">
+          Gagal mengambil data dashboard. Pastikan server API berjalan.
+        </p>
       </div>
     );
 
